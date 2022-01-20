@@ -23,8 +23,8 @@ function About({ Back }) {
 }
 
 function Game() {
-  const [gameState, setGameState] = useState('details');
-  const isGameState = (state) => state === gameState;
+  const [clientState, setClientState] = useState('clientState');
+  const isClientState = (state) => state === clientState;
   console.log('rendering game...');
 
   return (
@@ -34,22 +34,22 @@ function Game() {
       </header>
       <section>
 
-        {isGameState('details')
+        {isClientState('details')
               && (
               <Details Next={(
                 <>
-                  <NextBtn onClick={() => setGameState('lobby')} />
-                  <Button txt="About" onClick={() => setGameState('about')} />
+                  <NextBtn onClick={() => setClientState('lobby')} />
+                  <Button txt="About" onClick={() => setClientState('about')} />
                 </>
 )}
               />
               )}
 
-        {isGameState('lobby')
-              && <Lobby Back={(<BackBtn onClick={() => setGameState('details')} />)} />}
+        {isClientState('lobby')
+              && <Lobby Back={(<BackBtn onClick={() => setClientState('details')} />)} />}
 
-        {isGameState('about')
-              && <About Back={(<BackBtn onClick={() => setGameState('details')} />)} />}
+        {isClientState('about')
+              && <About Back={(<BackBtn onClick={() => setClientState('details')} />)} />}
 
       </section>
 
