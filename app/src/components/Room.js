@@ -3,6 +3,8 @@ import React from 'react';
 import Ctx from '../Ctx';
 import { Players } from './PlayerDetails';
 import ChatRoom from './Chat';
+import Keyboard from './Keyboard';
+import Board from './Board';
 
 function Countdown({ time }) {
   const [secs, setSecs] = React.useState(3);
@@ -81,20 +83,14 @@ function InGameLobby({ Back }) {
 }
 
 function InGame() {
-  const range = (n) => Array.from({ length: n }, (_, x) => x);
   const store = React.useContext(Ctx);
   const numGuesses = store.use(() => store.get('gameState').numGuesses);
   const wordLength = store.use(() => store.get('gameState').wordLength);
-  return (
-    <>
-    {range(numGuesses).map((guess) => (<div key={guess}>{
-      range(wordLength).map((letter) => (
-        <span key={letter}>x</span>
-      ))
-    }</div>))}
+  return (<>
+      <Board numGuesses={numGuesses} wordLength={wordLength}/>
+      <Keyboard/>
       <Players />
-    </>
-  );
+    </>);
 }
 
 function Ready({ ready, onClick }) {
