@@ -23,7 +23,7 @@ function About({ Back }) {
 }
 
 function Game() {
-  const [clientState, setClientState] = useState('clientState');
+  const [clientState, setClientState] = useState('details');
   const isClientState = (state) => state === clientState;
   console.log('rendering game...');
 
