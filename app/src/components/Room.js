@@ -81,10 +81,18 @@ function InGameLobby({ Back }) {
 }
 
 function InGame() {
+  const range = (n) => Array.from({ length: n }, (_, x) => x);
+  const store = React.useContext(Ctx);
+  const numGuesses = store.use(() => store.get('gameState').numGuesses);
+  const wordLength = store.use(() => store.get('gameState').wordLength);
   return (
     <>
+    {range(numGuesses).map((guess) => (<div key={guess}>{
+      range(wordLength).map((letter) => (
+        <span key={letter}>x</span>
+      ))
+    }</div>))}
       <Players />
-      Three.js
     </>
   );
 }
