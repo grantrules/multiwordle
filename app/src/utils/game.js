@@ -39,7 +39,7 @@ const finishJoin = (onStateChange, onMessage) => (room) => {
 
 const join = (roomId, name, onStateChange, onMessage) => {
   const joinRoom = finishJoin(onStateChange, onMessage);
-  return client.joinById(roomId, { playerName: name })
+  return client.joinById(roomId, { name })
     .then((room) => joinRoom(room))
     .catch((err) => {
       const error = err?.message?.indexOf('not found') ? 'Room not found' : 'Error joining room';
@@ -49,7 +49,7 @@ const join = (roomId, name, onStateChange, onMessage) => {
 
 const host = (name, onStateChange, onMessage) => {
   const joinRoom = finishJoin(onStateChange, onMessage);
-  return client.create('room', { playerName: name })
+  return client.create('wordle', { name })
     .then((room) => joinRoom(room));
 };
 
