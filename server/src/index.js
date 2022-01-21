@@ -6,7 +6,7 @@ import express from 'express';
 import WordleRoom from './rooms/WordleRoom.js';
 import { getWords } from './words.js';
 
-const port = Number(process.env.port) || 3000;
+const port = Number(process.env.port) || 2568;
 
 const app = express();
 app.use(express.json());
