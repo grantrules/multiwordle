@@ -9,10 +9,11 @@ function Player({ player }) {
 function Players() {
   const store = React.useContext(Ctx);
   const gamePlayers = store.use(() => store.get('gameState').players);
+  const playersArray = [...gamePlayers.values()];
 
   return (
     <ul>
-      {gamePlayers.values().map(
+      {playersArray.map(
         // eslint-disable-next-line react/no-array-index-key
         (player, n) => (<li key={n}><Player player={player} /></li>),
       )}

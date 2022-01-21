@@ -61,7 +61,7 @@ export default class WordleRoom extends Room {
     this.onMessage('ready', (client, ready) => {
       this.state.players.get(client.sessionId).ready = !!ready;
 
-      const players = this.state.players.values();
+      const players = [...this.state.players.values()];
       const numPlayers = players.filter(({ ready: r }) => r).length;
       if (players.length === numPlayers) {
         console.log('starting countdown');
