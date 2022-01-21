@@ -1,7 +1,7 @@
 import { readFile } from 'fs';
 import { promisify } from 'util';
 
-export async function getWords() {
+export default async function getWords() {
   const r = promisify(readFile);
   const words = await r('./words', 'utf8');
   const wordlist = words.split('\n');

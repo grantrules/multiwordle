@@ -4,7 +4,7 @@ import { WebSocketTransport } from '@colyseus/ws-transport';
 import { createServer } from 'http';
 import express from 'express';
 import WordleRoom from './rooms/WordleRoom.js';
-import { getWords } from './words.js';
+import getWords from './words.js';
 
 const port = Number(process.env.port) || 2568;
 
