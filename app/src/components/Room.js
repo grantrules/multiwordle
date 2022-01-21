@@ -36,7 +36,7 @@ function LobbyDetails({ Back }) {
   const gamePlayers = store.use(() => store.get('gameState').players);
   const gameRoom = store.use(() => store.get('gameRoom'));
 
-  const players = gamePlayers.values();
+  const players = [...gamePlayers.values()];
 
   const myState = gamePlayers.get(gameRoom.sessionId);
   const { ready } = myState || {};
