@@ -23,13 +23,16 @@ export default class WordleRoom extends Room {
     this.words = words;
     this.wordLength = wordLength;
 
+    this.maxClients = 4;
+
     let roomId = genId();
     while (this.presence.hget('rooms', roomId) === '1') {
       roomId = genId();
     }
+    this.roomId = roomId;
     this.presence.hset('rooms', roomId, '1');
 
-    this.setState(new State());
+    this.setState(new State(this.maxClients));
 
     this.onMessage('chat', (client, message) => {
       const msg = {
@@ -56,7 +59,7 @@ export default class WordleRoom extends Room {
     });
 
     this.onMessage('ready', (client, ready) => {
-      this.state.players.get(client.id).ready = !!ready;
+      this.state.players.get(client.sessionId).ready = !!ready;
 
       const players = this.state.players.values();
       const numPlayers = players.filter(({ ready: r }) => r).length;
@@ -91,17 +94,17 @@ export default class WordleRoom extends Room {
   }
 
   onJoin(client, { name }) {
-    this.players.set(client.sessionId, new Player(name));
-    console.log(client.sessionId, 'joined!');
+    this.state.players.set(client.sessionId, new Player(name));
+    console.log(`client: ${client.sessionId}, name: ${name} joined!`);
     this.cancelCountdown();
   }
 
   onLeave(client, consented) {
-    this.players.remove(client.sessionId);
+    this.state.players.delete(client.sessionId);
     console.log(client.sessionId, 'left', consented && ' of their own free will');
   }
 
   onDispose() {
-    console.log('room', this.roomId, 'disposing...');
+    this.presence.hdel('rooms', this.roomId);
   }
 }
