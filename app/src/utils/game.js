@@ -3,7 +3,7 @@ import * as Colyseus from 'colyseus.js';
 const connect = () => {
   console.log('Connecting...');
   const protocol = window.location.protocol === 'https:' ? 'wss' : 'ws';
-  const host = window.location.port === '3000' ? 'localhost:2568' : window.location.host;
+  const host = window.location.port === '3000' ? 'localhost:3000' : window.location.host;
   const client = new Colyseus.Client(`${protocol}://${host}` /* :2567' */);
   return client;
 };

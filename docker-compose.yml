@@ -10,6 +10,9 @@ services:
     environment:
       - NODE_ENV=production
     restart: unless-stopped
+    ports:
+      - "2568:2568"
+
 
   app:
     image: multiwordle-app
