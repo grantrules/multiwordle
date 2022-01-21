@@ -1,7 +1,7 @@
 import { Room } from '@colyseus/core';
 import { customAlphabet } from 'nanoid';
 import Player from './schema/Player.js';
-import { State } from './schema/State.js';
+import State from './schema/State.js';
 
 const genId = customAlphabet('ABCDEFGHIJKLMNOPQRSTUVWXYZ', 4);
 
