@@ -14,7 +14,7 @@ app.use(express.json());
 const gameServer = new Server({
   transport: new WebSocketTransport({
     server: createServer(app),
-  // presence: new RedisPresence()
+    presence: new RedisPresence({ host: 'redis' }),
   }),
 });
 
