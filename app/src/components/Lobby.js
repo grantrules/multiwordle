@@ -54,7 +54,6 @@ export default function Lobby({ Back }) {
 
   const store = React.useContext(Ctx);
   const playerName = store.use(() => store.get('playerName'));
-  const playerWeight = store.use(() => store.get('playerWeight'));
   const gameRoom = store.use(() => store.get('gameRoom'));
 
   const [error, setError] = useState(null);
@@ -71,10 +70,10 @@ export default function Lobby({ Back }) {
     console.log('react getting message', message);
   };
 
-  const joinRoom = (roomId) => join(roomId, playerName, Number(playerWeight.weight), onStateChange, onMessage).then((room) => store.set('gameRoom', room))
+  const joinRoom = (roomId) => join(roomId, playerName, onStateChange, onMessage).then((room) => store.set('gameRoom', room))
     .catch((e) => setError(e.message));
 
-  const hostGame = () => host(playerName, Number(playerWeight.weight), onStateChange, onMessage).then((room) => store.set('gameRoom', room));
+  const hostGame = () => host(playerName, onStateChange, onMessage).then((room) => store.set('gameRoom', room));
 
   return (
     <>

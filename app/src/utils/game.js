@@ -37,9 +37,9 @@ const finishJoin = (onStateChange, onMessage) => (room) => {
   return room;
 };
 
-const join = (roomId, name, weight, onStateChange, onMessage) => {
+const join = (roomId, name, onStateChange, onMessage) => {
   const joinRoom = finishJoin(onStateChange, onMessage);
-  return client.joinById(roomId, { playerName: name, playerWeight: weight })
+  return client.joinById(roomId, { playerName: name })
     .then((room) => joinRoom(room))
     .catch((err) => {
       const error = err?.message?.indexOf('not found') ? 'Room not found' : 'Error joining room';
@@ -47,9 +47,9 @@ const join = (roomId, name, weight, onStateChange, onMessage) => {
     });
 };
 
-const host = (name, weight, onStateChange, onMessage) => {
+const host = (name, onStateChange, onMessage) => {
   const joinRoom = finishJoin(onStateChange, onMessage);
-  return client.create('room', { playerName: name, playerWeight: weight })
+  return client.create('room', { playerName: name })
     .then((room) => joinRoom(room));
 };
 
