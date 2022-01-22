@@ -10,9 +10,11 @@ orbs:
 
 jobs:
   build-app:
+    working_directory: ~/project/app
     docker:
       - image: docker:20-git
     steps:
+      - checkout
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
