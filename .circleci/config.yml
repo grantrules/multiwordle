@@ -10,7 +10,7 @@ orbs:
 
 jobs:
   build-app:
-    working_directory: ~/project/app
+    #working_directory: ~/project/app
     docker:
       - image: docker:20-git
     steps:
