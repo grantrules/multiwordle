@@ -65,4 +65,4 @@ workflows:
       # - node/test
   build:
     jobs:
-      - build
+      - build-app
