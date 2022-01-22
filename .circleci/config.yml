@@ -9,7 +9,7 @@ orbs:
   node: circleci/node@5.0
 
 jobs:
-  build-app:
+  build-app-image:
     #working_directory: ~/project/app
     docker:
       - image: docker:19.03-git
@@ -48,7 +48,7 @@ jobs:
 
 
 
-  build-server:
+  build-server-image:
     docker:
       - image: docker:19.03-git
     steps:
@@ -73,7 +73,7 @@ jobs:
           name: Save Docker image layer cache
           command: |
             mkdir -p /caches
-            docker save -o /caches/server.tar app
+            docker save -o /caches/server.tar server
       - save_cache:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
@@ -99,7 +99,14 @@ workflows:
   build:
     jobs:
       - test
-      - build-app:
+      - build-app-image:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - build-server-image:
           requires:
             - test
           filters:
