@@ -15,7 +15,7 @@ function App() {
     s.set('playerName', storedData.name || pickName());
 
     // game context
-    s.set('gameClient', null);
+    s.set('gameClient', nulll);
     s.set('gameRoom', null);
     s.set('gameState', {});
     s.set('gameChat', []);
