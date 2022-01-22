@@ -87,7 +87,7 @@ jobs:
     docker:
       - image: cimg/node:17.4
     steps:
-      - checkout
+      - checkout 
       - node/install-packages:
           app-dir: ~/project/app
           pkg-manager: npm
