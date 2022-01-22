@@ -44,6 +44,45 @@ jobs:
       #    name: Run tests
       #    command: |
       #      docker-compose -f ./docker-compose.yml up
+
+
+
+
+  build-server:
+    docker:
+      - image: docker:19.03-git
+    steps:
+      - checkout
+      - setup_remote_docker:
+          version: 19.03.14
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/server.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/server.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            cd server && docker build --cache-from=server -t server .
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/server.tar app
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/server.tar
+      #- run:
+      #    name: Run tests
+      #    command: |
+      #      docker-compose -f ./docker-compose.yml up
+
   build-and-test:
     docker:
       - image: cimg/node:17.4
