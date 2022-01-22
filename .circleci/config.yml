@@ -9,23 +9,45 @@ orbs:
   node: circleci/node@4.7
 
 jobs:
-  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
-  build-and-test:
-    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
-    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
-    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/node
+  build-app:
+    working_directory: ~/project/app
     docker:
-      - image: cimg/node:16.10
-    # Then run your tests!
-    # CircleCI will report the results back to your VCS provider.
+      - image: docker:20-git
     steps:
-      # Checkout the code as the first step.
+      - restore_cache:
+          keys:
+            - v1-{{ .Branch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/app.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=app -t app .
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/app.tar app
+      - save_cache:
+          key: v1-{{ .Branch }}-{{ epoch }}
+          paths:
+            - /caches/app.tar
+      - run:
+          name: Run tests
+          command: |
+            docker-compose -f ./docker-compose.test.yml up
+  build-and-test:
+   docker:
+      - image: cimg/node:17.4
+    steps:
       - checkout
-      # Next, the node orb's install-packages step will install the dependencies from a package.json.
-      # The orb install-packages step will also automatically cache them for faster future runs.
       - node/install-packages:
           app-dir: ~/project/app
-          # If you are using yarn, change the line below from "npm" to "yarn"
           pkg-manager: npm
       - run:
           name: Run tests
