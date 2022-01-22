@@ -40,10 +40,10 @@ jobs:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
-      - run:
-          name: Run tests
-          command: |
-            docker-compose -f ./docker-compose.yml up
+      #- run:
+      #    name: Run tests
+      #    command: |
+      #      docker-compose -f ./docker-compose.yml up
   build-and-test:
     docker:
       - image: cimg/node:17.4
