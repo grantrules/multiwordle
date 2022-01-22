@@ -10,11 +10,11 @@ function About({ Back }) {
       <legend>About</legend>
       <p>
         Hi, I made this for fun after playing Wordle
-        {' '}
       </p>
       <p>I&apos;m looking for a neat job</p>
       <p>
         You can check out the project on
+        {' '}
         <a target="_blank" rel="noopener noreferrer" href="https://github.com/grantrules/multiwordle">GitHub</a>
       </p>
       {Back}
