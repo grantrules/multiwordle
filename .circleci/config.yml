@@ -12,10 +12,11 @@ jobs:
   build-app:
     #working_directory: ~/project/app
     docker:
-      - image: docker:20-git
+      - image: docker:19.03-git
     steps:
       - checkout
       - setup_remote_docker
+         version: 19.03
       - restore_cache:
           keys:
             - v1-{{ .Branch }}
