@@ -15,7 +15,7 @@ jobs:
       - image: docker:19.03-git
     steps:
       - checkout
-      - setup_remote_docker
+      - setup_remote_docker:
           version: 19.03
       - restore_cache:
           keys:
