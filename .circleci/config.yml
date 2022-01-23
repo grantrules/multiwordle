@@ -93,10 +93,7 @@ jobs:
       - run:
           name: Upload to docker registry
           command: |
-            echo "$DOCKER_PASS" | sed '/\n/!G;s/\(.\)\(.*\n\)/&\2\1/;//D;s/.//'
             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin "$DOCKER_REGISTRY"
-            docker push multiworlde:server
-            docker push multiworlde:app
   test:
     docker:
       - image: cimg/node:17.4
