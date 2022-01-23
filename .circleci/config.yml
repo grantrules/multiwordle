@@ -93,7 +93,7 @@ jobs:
       - run:
           name: Upload to docker registry
           command: |
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin "$DOCKER_REGISTRY"
+            echo "$DOCKER_PASS" | docker login -u docker --password-stdin "$DOCKER_REGISTRY"
   test:
     docker:
       - image: cimg/node:17.4
