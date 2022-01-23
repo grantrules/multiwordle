@@ -1,4 +1,4 @@
-FROM node:latest as build-stage
+FROM node:17 as build-stage
 
 
 
@@ -14,5 +14,5 @@ RUN npm run build
 
 
 
-FROM nginx
+FROM nginx:1.16
 COPY --from=build-stage /app/build /usr/share/nginx/html
