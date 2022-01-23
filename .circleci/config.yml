@@ -30,7 +30,7 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            cd app && docker build --cache-from=app -t app .
+            cd app && docker build --cache-from=app -t multiwordle:app .
       - run:
           name: Save Docker image layer cache
           command: |
@@ -40,6 +40,11 @@ jobs:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/app.tar
+      - run:
+          name: Upload to docker registry
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin $DOCKER_HOST
+            docker push multiworlde:server
       #- run:
       #    name: Run tests
       #    command: |
@@ -68,7 +73,7 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            cd server && docker build --cache-from=server -t server .
+            cd server && docker build --cache-from=server -t multiwordle:server .
       - run:
           name: Save Docker image layer cache
           command: |
@@ -78,6 +83,11 @@ jobs:
           key: v1-{{ .Branch }}-{{ epoch }}
           paths:
             - /caches/server.tar
+      - run:
+          name: Upload to docker registry
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin $DOCKER_HOST
+            docker push multiworlde:server
       #- run:
       #    name: Run tests
       #    command: |
