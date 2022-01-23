@@ -32,7 +32,7 @@ jobs:
             echo "$DOCKER_REGISTRY_PASS" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
             docker tag server $DOCKER_REGISTRY/multiwordle:server
             docker tag app $DOCKER_REGISTRY/multiwordle:app
-            docker push $DOCKER_REGISTRY/multiwordlee:server
+            docker push $DOCKER_REGISTRY/multiwordle:server
             docker push $DOCKER_REGISTRY/multiwordle:app
   test:
     docker:
