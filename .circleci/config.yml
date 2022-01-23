@@ -98,7 +98,9 @@ jobs:
       - run:
           name: Upload to docker registry
           command: |
-            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin $DOCKER_HOST
+            echo $DOCKER_HOST
+            echo $DOCKER_USER
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin "$DOCKER_HOST"
             docker push multiworlde:server
             docker push multiworlde:app
   test:
