@@ -12,12 +12,12 @@ jobs:
   build-images:
     #working_directory: ~/project/app
     docker:
-      - image: docker:19.03-git
+      - image: docker:20.10-git
     steps:
       - checkout
       - setup_remote_docker:
           docker_layer_caching: true
-          version: 19.03.14
+          version: 20.10.2
       - run:
           name: Build application Docker image
           command: |
