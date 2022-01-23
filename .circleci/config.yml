@@ -94,8 +94,10 @@ jobs:
           name: Upload to docker registry
           command: |
             echo "$DOCKER_REGISTRY_PASS" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
-            docker push multiworlde:server
-            docker push multiworlde:app
+            docker tag multiwordle:server $DOCKER_REGISTRY/multiwordle:server
+            docker tag multiwordle:app $DOCKER_REGISTRY/multiwordle:app
+            docker push $DOCKER_REGISTRY/multiwordlee:server
+            docker push $DOCKER_REGISTRY/multiwordle:app
   test:
     docker:
       - image: cimg/node:17.4
