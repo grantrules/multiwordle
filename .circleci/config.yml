@@ -96,11 +96,11 @@ jobs:
       - setup_remote_docker:
           version: 19.03.14
       - run:
-        name: Upload to docker registry
-        command: |
-          echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin $DOCKER_HOST
-          docker push multiworlde:server
-          docker push multiworlde:app
+          name: Upload to docker registry
+          command: |
+            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin $DOCKER_HOST
+            docker push multiworlde:server
+            docker push multiworlde:app
   test:
     docker:
       - image: cimg/node:17.4
