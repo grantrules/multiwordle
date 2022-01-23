@@ -9,7 +9,7 @@ orbs:
   node: circleci/node@5.0
 
 jobs:
-  build-app-image:
+  build-images:
     #working_directory: ~/project/app
     docker:
       - image: docker:19.03-git
@@ -21,45 +21,17 @@ jobs:
       - run:
           name: Build application Docker image
           command: |
-            cd app && docker build --cache-from=multiwordle:app -t multiwordle:app .
-      #- run:
-      #    name: Run tests
-      #    command: |
-      #      docker-compose -f ./docker-compose.yml up
-
-
-
-
-  build-server-image:
-    docker:
-      - image: docker:19.03-git
-    steps:
-      - checkout
-      - setup_remote_docker:
-          docker_layer_caching: true
-          version: 19.03.14
+            docker build -t app ./app
       - run:
-          name: Build application Docker image
+          name: Build server Docker image
           command: |
-            cd server && docker build --cache-from=multiwordle:server -t multiwordle:server .
-      #- run:
-      #    name: Run tests
-      #    command: |
-      #      docker-compose -f ./docker-compose.yml up
-
-  push-images:
-    docker:
-      - image: docker:19.03-git
-    steps:
-      - checkout
-      - setup_remote_docker:
-          version: 19.03.14
+            docker build -t server ./server
       - run:
           name: Upload to docker registry
           command: |
             echo "$DOCKER_REGISTRY_PASS" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
-            docker tag multiwordle:server $DOCKER_REGISTRY/multiwordle:server
-            docker tag multiwordle:app $DOCKER_REGISTRY/multiwordle:app
+            docker tag server $DOCKER_REGISTRY/multiwordle:server
+            docker tag app $DOCKER_REGISTRY/multiwordle:app
             docker push $DOCKER_REGISTRY/multiwordlee:server
             docker push $DOCKER_REGISTRY/multiwordle:app
   test:
@@ -78,21 +50,10 @@ workflows:
   build:
     jobs:
       - test
-      - build-app-image:
+      - build-images:
           requires:
             - test
           filters:
             branches:
               only:
                 - master
-      - build-server-image:
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - master
-      - push-images:
-          requires:
-            - build-app-image
-            - build-server-image
