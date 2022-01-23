@@ -16,30 +16,12 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
+          docker_layer_caching: true
           version: 19.03.14
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
-          paths:
-            - /caches/app.tar
-      - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/app.tar | true
       - run:
           name: Build application Docker image
           command: |
             cd app && docker build --cache-from=multiwordle:app -t multiwordle:app .
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/app.tar multiwordle:app
-      - save_cache:
-          key: v1-{{ .Branch }}
-          paths:
-            - /caches/app.tar
       #- run:
       #    name: Run tests
       #    command: |
@@ -54,30 +36,12 @@ jobs:
     steps:
       - checkout
       - setup_remote_docker:
+          docker_layer_caching: true
           version: 19.03.14
-      - restore_cache:
-          keys:
-            - v1-{{ .Branch }}
-          paths:
-            - /caches/server.tar
-      - run:
-          name: Load Docker image layer cache
-          command: |
-            set +o pipefail
-            docker load -i /caches/server.tar | true
       - run:
           name: Build application Docker image
           command: |
             cd server && docker build --cache-from=multiwordle:server -t multiwordle:server .
-      - run:
-          name: Save Docker image layer cache
-          command: |
-            mkdir -p /caches
-            docker save -o /caches/server.tar multiwordle:server
-      - save_cache:
-          key: v1-{{ .Branch }}
-          paths:
-            - /caches/server.tar
       #- run:
       #    name: Run tests
       #    command: |
