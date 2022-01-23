@@ -6,7 +6,7 @@ WORKDIR /app
 
 COPY . .
 
-RUN npm install --only=production
+RUN npm install
 
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
