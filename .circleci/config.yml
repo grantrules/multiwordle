@@ -37,7 +37,7 @@ jobs:
             mkdir -p /caches
             docker save -o /caches/app.tar multiwordle:app
       - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
+          key: v1-{{ .Branch }}
           paths:
             - /caches/app.tar
       #- run:
@@ -75,7 +75,7 @@ jobs:
             mkdir -p /caches
             docker save -o /caches/server.tar multiwordle:server
       - save_cache:
-          key: v1-{{ .Branch }}-{{ epoch }}
+          key: v1-{{ .Branch }}
           paths:
             - /caches/server.tar
       #- run:
@@ -94,6 +94,8 @@ jobs:
           name: Upload to docker registry
           command: |
             echo "$DOCKER_REGISTRY_PASS" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
+            docker push multiworlde:server
+            docker push multiworlde:app
   test:
     docker:
       - image: cimg/node:17.4
@@ -110,4 +112,21 @@ workflows:
   build:
     jobs:
       - test
-      - push-images
+      - build-app-image:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - build-server-image:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+      - push-images:
+          requires:
+            - build-app-image
+            - build-server-image
