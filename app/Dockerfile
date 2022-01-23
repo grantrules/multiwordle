@@ -1,4 +1,4 @@
-FROM node:17 as build-stage
+FROM node:alpine as build-stage
 
 
 
@@ -14,5 +14,5 @@ RUN npm run build
 
 
 
-FROM nginx:1.16-alpine
+FROM nginx:alpine
 COPY --from=build-stage /app/build /usr/share/nginx/html
